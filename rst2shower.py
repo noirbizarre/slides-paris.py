@@ -76,6 +76,9 @@ for section in body.iter('section'):
 for ul_or_ol in body.cssselect('.incremental'):
     for li in ul_or_ol.iterchildren():
         add_class(li, 'next')
+        for nested_li in li.cssselect('ul li'):
+            add_class(nested_li, 'next')
+
     ul_or_ol.attrib.pop('class')
 
 for code in body.cssselect('pre code'):

@@ -63,18 +63,110 @@ Paramètres importants
 Gestion des dépendances
 =======================
 
-TODO, pip, install_requires, tests_require, extra
+.. class:: incremental
+
+* install_requires
+* tests_require
+* extras_require
+
+.. class:: next
+
+.. code-block:: python
+
+    extras_require = {
+        'tests':  ['factory-boy']
+    }
+
+.. class:: next
+
+.. code-block:: bash
+
+    $ pip install my-project[tests]
+
+
+**DRY**: Réutiliser les requirements de pip
+===========================================
+
+.. class:: condensed
+
+.. code-block:: python
+
+    RE_REQUIREMENT = re.compile(r'^\s*-r\s*(?P<filename>.*)$')
+
+    def pip(filename):
+        requirements = []
+        for line in open(join('requirements', filename)).readlines():
+            match = RE_REQUIREMENT.match(line)
+            if match:
+                requirements.extend(pip(match.group('filename')))
+            else:
+                requirements.append(line)
+        return requirements
+
+    setup(
+        # ...
+        install_requires=pip('install.pip'),
+        tests_require=pip('test.pip'),
+        extras_require = {
+            'tests':  pip('test.pip'),
+        },
+    )
 
 
 Versionning
 ===========
 
-TODO (Bump'R, PEP, semver)
+.. class:: incremental
+
+* respect des normes (PEP 386, semver...)
+
+  * 3 chiffres: {major}.{minor}.{patch}
+  * suffix en dehors des releases: {major}.{minor}.{patch}.dev
+
+* Automatisez la release !
+
+  * script shell
+  * Bump'R (ou autre)
+
 
 Description et changelog
 ========================
 
-RST, filtrage...
+Soyez **DRY**, réutiliser vos fichiers:
+
+.. class:: incremental
+
+* README.rst
+* CHANGELOG.rst
+* CONTRIBUTING.rst
+* AUTHORS.rst
+
+Filtrage et concatenation du RST
+================================
+
+.. class:: condensed
+
+.. code-block:: python
+
+    PYPI_RST_FILTERS = (
+        (r'\.\.\s? code-block::\s*(\w|\+)+',  '::'),
+        (r'.*travis-ci\.org/.*', ''),
+        (r'.*pypip\.in/.*', ''),
+        (r'.*crate\.io/.*', ''),
+        (r'.*coveralls\.io/.*', ''),
+    )
+
+    def rst(filename):
+        content = open(filename).read()
+        for regex, replacement in PYPI_RST_FILTERS:
+            content = re.sub(regex, replacement, content)
+        return content
+
+    long_description = '\n'.join((
+        rst('README.rst'),
+        rst('CHANGELOG.rst'),
+        ''
+    ))
 
 
 Documentation
@@ -118,7 +210,7 @@ Développez
 
 Une seule commande pour être prêt:
 
-.. code-block:: console
+.. code-block:: bash
 
     $ python setup.py develop
 
@@ -126,7 +218,7 @@ Une seule commande pour être prêt:
 Prévisualisez
 =============
 
-.. code-block:: console
+.. code-block:: bash
 
     $ python setup.py --long-description | rst2html
     $ python setup.py sdist
@@ -135,10 +227,14 @@ Prévisualisez
 Publiez
 =======
 
-.. code-block:: console
+.. code-block:: bash
 
+    # Enregistrer le module sur PyPI
     $ python setup.py register
+    # Publier sur PyPI
     $ python setup.py sdist upload
+    # Créer un version avec un suffix
+    $ python setup.py -q egg_info -b ".1234" sdist
 
 
 Un peu de lecture

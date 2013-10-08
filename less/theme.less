@@ -30,8 +30,34 @@
     }
 }
 
+.slide > div {
+    & > p, & > ul {
+        margin-bottom: 20px !important;
+    }
+}
+
 code.highlight {
     line-height: 30px !important;
     padding: 10px !important;
     box-shadow: rgba(255, 255, 255, 0.3) 0 1px 0, rgba(0, 0, 0, 0.8) 0 1px 7px 1px inset;
+
+    &.condensed {
+        font-size: 16px;
+        line-height: 20px !important;
+    }
+}
+
+ul {
+    margin-left: 25px !important;
+
+    & > li {
+
+        & > p {
+            display: inline;
+        }
+
+        & > ul {
+            margin-left: 50px !important;
+        }
+    }
 }
