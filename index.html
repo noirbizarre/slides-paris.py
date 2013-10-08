@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Python packaging</title>
+<meta content="width=792, user-scalable=no" name="viewport">
+<meta content="ie=edge" http-equiv="x-ua-compatible">
+<link href="css/paris.py.css" rel="stylesheet">
+</head>
+<body class="list">
+    <header class="caption"><h1>Python packaging</h1>
+    <p>Best practices et retour d'expérience en 15 minutes</p>
+    </header><section class="slide cover first" id="packaging-python"><div>
+<h2>Packaging Python</h2>
+        <p>Par <a href="http://noirbizarre.info">Axel Haustant</a></p>
+        <img src="images/python.jpg" alt="cover">
+</div></section><section class="slide" id="packager-pourquoi"><div>
+<h2>Packager, Pourquoi ?</h2>
+        <ul>
+<li class="next">pour distribuer</li>
+            <li class="next">pour déployer</li>
+            <li class="next">pour archiver</li>
+        </ul>
+</div></section><section class="slide" id="comment"><div>
+<h2>Comment ?</h2>
+        <p>Avec <code>setuptools</code> !</p>
+        <p class="next">C'est du Python donc tout est permis !</p>
+        <p class="next">Mais c'est pas une raison pour faire n'importe quoi !</p>
+    </div></section><section class="slide" id="un-setup-py-basic"><div>
+<h2>Un setup.py basic</h2>
+        <pre><code class="python highlight"><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s">'my-project'</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s">'0.1'</span><span class="p">,</span>
+<span class="p">)</span></code></pre>
+    </div></section><section class="slide" id="parametres-importants"><div>
+<h2>Paramètres importants</h2>
+        <ul>
+<li class="next">name (évidement)</li>
+            <li class="next">version</li>
+            <li class="next">description</li>
+        </ul>
+</div></section><section class="slide" id="gestion-des-dependances"><div>
+<h2>Gestion des dépendances</h2>
+        <p>TODO, pip, install_requires, tests_require, extra</p>
+    </div></section><section class="slide" id="versionning"><div>
+<h2>Versionning</h2>
+        <p>TODO (Bump'R, PEP, semver)</p>
+    </div></section><section class="slide" id="description-et-changelog"><div>
+<h2>Description et changelog</h2>
+        <p>RST, filtrage...</p>
+    </div></section><section class="slide" id="documentation"><div>
+<h2>Documentation</h2>
+        <p>Sphinx, Read the doc...</p>
+    </div></section><section class="slide" id="console-scripts"><div>
+<h2>Console scripts</h2>
+        <p>TODO</p>
+    </div></section><section class="slide" id="entry-points"><div>
+<h2>Entry Points</h2>
+        <p>TODO</p>
+    </div></section><section class="slide" id="classifiers"><div>
+<h2>Classifiers</h2>
+        <p>Sur PyPI (Python version)</p>
+    </div></section><section class="slide" id="inclure-des-donnees"><div>
+<h2>Inclure des données</h2>
+        <p>find_packages MANIFEST.in read from stream</p>
+    </div></section><section class="slide" id="manifest-in"><div>
+<h2>MANIFEST.in</h2>
+        <ul>
+<li>include</li>
+            <li>include-recursive</li>
+            <li>prune</li>
+        </ul>
+</div></section><section class="slide" id="developpez"><div>
+<h2>Développez</h2>
+        <p>Une seule commande pour être prêt:</p>
+        <pre><code class="highlight console"><span class="gp">$</span> python setup.py develop</code></pre>
+    </div></section><section class="slide" id="previsualisez"><div>
+<h2>Prévisualisez</h2>
+        <pre><code class="highlight console"><span class="gp">$</span> python setup.py --long-description | rst2html
+<span class="gp">$</span> python setup.py sdist</code></pre>
+    </div></section><section class="slide" id="publiez"><div>
+<h2>Publiez</h2>
+        <pre><code class="highlight console"><span class="gp">$</span> python setup.py register
+<span class="gp">$</span> python setup.py sdist upload</code></pre>
+    </div></section><section class="slide" id="un-peu-de-lecture"><div>
+<h2>Un peu de lecture</h2>
+        <ul>
+<li><a href="https://pythonhosted.org/setuptools/">Documentation officielle de setuptools</a></li>
+            <li><a href="http://guide.python-distribute.org/">The Hitchhiker's Guide to Packaging</a></li>
+            <li>
+<a href="http://www.python.org/dev/peps/pep-0386/">PEP 386</a> (numéro de version)</li>
+            <li>
+<a href="http://www.python.org/dev/peps/pep-0396/">PEP 396</a> (version d'un module)</li>
+            <li>
+<a href="http://www.python.org/dev/peps/pep-0345/">PEP 345</a> (métadonnées)</li>
+            <li>
+<a href="http://www.python.org/dev/peps/pep-0426/">PEP 426</a> (métadonnées 2.0)</li>
+        </ul>
+</div></section><div class="progress"><div></div></div>
+<script src="js/paris.py.js"></script>
+</body>
+</html>
