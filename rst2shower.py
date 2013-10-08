@@ -1,10 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import unicode_literals, print_function
+
+import sys
 
 from docutils.core import publish_string
 from lxml import etree as ET, html
 from rst2html5 import HTML5Writer
+
+
+def ok():
+    if sys.stdout.isatty():
+        print('\x1b[32m✔\x1b[0m'.encode('utf8'))
+    else:
+        print('✔'.encode('utf8'))
 
 
 def add_class(el, clazz):
@@ -25,8 +34,13 @@ def add_css(el, url):
 
 
 source = 'slides.rst'
-raw_html5 = publish_string(open(source).read(), writer=HTML5Writer())
+destination = 'dist/index.html'
 
+print("Rendering {0} to raw HTML5...".format(source), end='')
+raw_html5 = publish_string(open(source).read(), writer=HTML5Writer())
+ok()
+
+print("Transforming raw HTML5 to shower slides", end='')
 doc = html.fromstring(raw_html5.decode('utf-8'), 'utf-8')
 doc.set('lang', 'fr')
 
@@ -81,6 +95,9 @@ ET.SubElement(progress, 'div')
 
 # Shower script
 ET.SubElement(body, 'script', attrib={'src': 'js/paris.py.js'})
+ok()
 
-with open('dist/index.html', 'wb') as out:
+print("Saving rendered slides to {0}...".format(destination), end='')
+with open(destination, 'wb') as out:
     out.write(html.tostring(doc, encoding='utf-8', pretty_print=True, doctype='<!DOCTYPE html>'))
+ok()

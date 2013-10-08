@@ -70,6 +70,11 @@ module.exports = function(grunt) {
                 }]
             }
         },
+        open : {
+            dev : {
+                path: 'dist/index.html'
+            }
+        },
         watch: {
             options: {
                 spawn: false,
@@ -99,13 +104,14 @@ module.exports = function(grunt) {
         'gh-pages': {
             options: {
                 base: 'dist',
-                message: 'Automatically deploy github pages'
+                message: 'Automatically deploy github pages',
             },
             src: '**/*'
         }
     });
 
     grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-less');
@@ -116,6 +122,6 @@ module.exports = function(grunt) {
 
     // Register the default tasks
     grunt.registerTask('default', ['clean', 'copy', 'less', 'uglify', 'shell']);
-    grunt.registerTask('dev', ['default', 'watch']);
+    grunt.registerTask('dev', ['default', 'open', 'watch']);
     grunt.registerTask('deploy', ['default', 'imagemin', 'gh-pages']);
 };
