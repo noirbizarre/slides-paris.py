@@ -43,13 +43,86 @@
         </ul>
 </div></section><section class="slide" id="gestion-des-dependances"><div>
 <h2>Gestion des dépendances</h2>
-        <p>TODO, pip, install_requires, tests_require, extra</p>
+        <ul>
+<li class="next">install_requires</li>
+            <li class="next">tests_require</li>
+            <li class="next">extras_require</li>
+        </ul>
+<pre><code class="python highlight next"><span class="n">extras_require</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'tests'</span><span class="p">:</span>  <span class="p">[</span><span class="s">'factory-boy'</span><span class="p">]</span>
+<span class="p">}</span></code></pre>
+        <pre><code class="highlight bash next"><span class="nv">$ </span>pip install my-project<span class="o">[</span>tests<span class="o">]</span></code></pre>
+    </div></section><section class="slide" id="dry-reutiliser-les-requirements-de-pip"><div>
+<h2>
+<strong>DRY</strong>: Réutiliser les requirements de pip</h2>
+        <pre><code class="python highlight condensed"><span class="n">RE_REQUIREMENT</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r'^\s*-r\s*(?P&lt;filename&gt;.*)$'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">pip</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="n">requirements</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="s">'requirements'</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">RE_REQUIREMENT</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">requirements</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pip</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">'filename'</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">requirements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">requirements</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="c"># ...</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="n">pip</span><span class="p">(</span><span class="s">'install.pip'</span><span class="p">),</span>
+    <span class="n">tests_require</span><span class="o">=</span><span class="n">pip</span><span class="p">(</span><span class="s">'test.pip'</span><span class="p">),</span>
+    <span class="n">extras_require</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'tests'</span><span class="p">:</span>  <span class="n">pip</span><span class="p">(</span><span class="s">'test.pip'</span><span class="p">),</span>
+    <span class="p">},</span>
+<span class="p">)</span></code></pre>
     </div></section><section class="slide" id="versionning"><div>
 <h2>Versionning</h2>
-        <p>TODO (Bump'R, PEP, semver)</p>
-    </div></section><section class="slide" id="description-et-changelog"><div>
+        <ul>
+<li class="next">
+                <p>respect des normes (PEP 386, semver...)</p>
+                <ul>
+<li class="next">3 chiffres: {major}.{minor}.{patch}</li>
+                    <li class="next">suffix en dehors des releases: {major}.{minor}.{patch}.dev</li>
+                </ul>
+</li>
+            <li class="next">
+                <p>Automatisez la release !</p>
+                <ul>
+<li class="next">script shell</li>
+                    <li class="next">Bump'R (ou autre)</li>
+                </ul>
+</li>
+        </ul>
+</div></section><section class="slide" id="description-et-changelog"><div>
 <h2>Description et changelog</h2>
-        <p>RST, filtrage...</p>
+        <p>Soyez <strong>DRY</strong>, réutiliser vos fichiers:</p>
+        <ul>
+<li class="next">README.rst</li>
+            <li class="next">CHANGELOG.rst</li>
+            <li class="next">CONTRIBUTING.rst</li>
+            <li class="next">AUTHORS.rst</li>
+        </ul>
+</div></section><section class="slide" id="filtrage-et-concatenation-du-rst"><div>
+<h2>Filtrage et concatenation du RST</h2>
+        <pre><code class="python highlight condensed"><span class="n">PYPI_RST_FILTERS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="s">r'\.\.\s? code-block::\s*(\w|\+)+'</span><span class="p">,</span>  <span class="s">'::'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">r'.*travis-ci\.org/.*'</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">r'.*pypip\.in/.*'</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">r'.*crate\.io/.*'</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">r'.*coveralls\.io/.*'</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">rst</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">regex</span><span class="p">,</span> <span class="n">replacement</span> <span class="ow">in</span> <span class="n">PYPI_RST_FILTERS</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">replacement</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">content</span>
+
+<span class="n">long_description</span> <span class="o">=</span> <span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
+    <span class="n">rst</span><span class="p">(</span><span class="s">'README.rst'</span><span class="p">),</span>
+    <span class="n">rst</span><span class="p">(</span><span class="s">'CHANGELOG.rst'</span><span class="p">),</span>
+    <span class="s">''</span>
+<span class="p">))</span></code></pre>
     </div></section><section class="slide" id="documentation"><div>
 <h2>Documentation</h2>
         <p>Sphinx, Read the doc...</p>
@@ -75,15 +148,19 @@
 </div></section><section class="slide" id="developpez"><div>
 <h2>Développez</h2>
         <p>Une seule commande pour être prêt:</p>
-        <pre><code class="highlight console"><span class="gp">$</span> python setup.py develop</code></pre>
+        <pre><code class="highlight bash"><span class="nv">$ </span>python setup.py develop</code></pre>
     </div></section><section class="slide" id="previsualisez"><div>
 <h2>Prévisualisez</h2>
-        <pre><code class="highlight console"><span class="gp">$</span> python setup.py --long-description | rst2html
-<span class="gp">$</span> python setup.py sdist</code></pre>
+        <pre><code class="highlight bash"><span class="nv">$ </span>python setup.py --long-description | rst2html
+<span class="nv">$ </span>python setup.py sdist</code></pre>
     </div></section><section class="slide" id="publiez"><div>
 <h2>Publiez</h2>
-        <pre><code class="highlight console"><span class="gp">$</span> python setup.py register
-<span class="gp">$</span> python setup.py sdist upload</code></pre>
+        <pre><code class="highlight bash"><span class="c"># Enregistrer le module sur PyPI
+</span><span class="nv">$ </span>python setup.py register
+<span class="c"># Publier sur PyPI
+</span><span class="nv">$ </span>python setup.py sdist upload
+<span class="c"># Créer un version avec un suffix
+</span><span class="nv">$ </span>python setup.py -q egg_info -b <span class="s2">".1234"</span> sdist</code></pre>
     </div></section><section class="slide" id="un-peu-de-lecture"><div>
 <h2>Un peu de lecture</h2>
         <ul>
