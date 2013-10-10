@@ -24,6 +24,12 @@ Par `Axel Haustant <http://noirbizarre.info>`_
 .. image:: images/logo-meetup.png
     :alt: logo meetup
 
+.. note::
+
+    * remettre la phrase d'accroche ?
+    * taille du logo ?
+    * faire apparaitre Paris.py dans le logo
+
 
 
 Packaging ?
@@ -54,7 +60,7 @@ Avec ``setuptools`` !
 L'essentiel
 ===========
 
-.. note:: à revoir
+.. note:: titre à revoir
 
 
 
@@ -86,7 +92,7 @@ Identification
 * name (évidement)
 * version
 * description
-* long-description
+* long_description
 * classifiers
 
 
@@ -98,8 +104,8 @@ Versionning
 
 * respect des normes (PEP 386, semver...)
 
-  * 3 chiffres: *{major}.{minor}.{patch}*
-  * suffix pour le dev: {major}.{minor}.{patch}.dev
+  * 3 chiffres: ``{major}.{minor}.{patch}``
+  * suffix pour le dev: ``{major}.{minor}.{patch}.dev``
 
 * Automatisez la release !
 
@@ -223,6 +229,7 @@ Selon la `PEP 396`_, le module doit contenir certaines metadonnées
         description=__description__
     )
 
+.. note:: la PEP 396 porte uniquement sur __version__
 
 
 Réutiliser les requirements de pip
@@ -283,6 +290,10 @@ Réutiliser les fichiers rst
     ))
 
 
+.. note:: verifier que code-block est toujours d'actualité
+    avec la nouvelle version de PyPI et sur Crate.io
+
+
 
 .. class:: shout
 
@@ -304,6 +315,12 @@ Pas besoin de répertoire ``bin``
             'myexec = project.commands:main',
         ]
     }
+
+.. class:: next
+
+.. code-block:: bash
+
+    $ myexec
 
 
 
