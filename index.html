@@ -15,7 +15,9 @@
     </header><section class="slide cover first" id="packaging-python"><div>
 <h2>Packaging Python</h2>
         <p>Par <a href="http://noirbizarre.info">Axel Haustant</a></p>
-        <img src="images/python.jpg" alt="cover"><img src="images/logo-meetup.png" alt="logo meetup" class="logo-right">
+        <img src="images/python.jpg" alt="cover"><img src="images/logo-meetup.png" alt="logo meetup" class="logo-right"><footer>remettre la phrase d'accroche ?
+                taille du logo ?
+                faire apparaitre Paris.py dans le logo</footer>
 </div></section><section class="slide" id="packaging"><div>
 <h2>Packaging ?</h2>
         <p class="next"><strong>Pourquoi ?</strong></p>
@@ -28,7 +30,7 @@
         <p class="next">Avec <code>setuptools</code> !</p>
     </div></section><section class="shout slide" id="l-essentiel"><div>
 <h2>L'essentiel</h2>
-        <footer>à revoir</footer>
+        <footer>titre à revoir</footer>
 </div></section><section class="slide" id="setup-py"><div>
 <h2>setup.py</h2>
         <pre><code class="python highlight"><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
@@ -45,7 +47,7 @@
 <li class="next">name (évidement)</li>
             <li class="next">version</li>
             <li class="next">description</li>
-            <li class="next">long-description</li>
+            <li class="next">long_description</li>
             <li class="next">classifiers</li>
         </ul>
 </div></section><section class="slide" id="versionning"><div>
@@ -54,9 +56,10 @@
 <li class="next">
                 <p>respect des normes (PEP 386, semver...)</p>
                 <ul>
-<li class="next">3 chiffres: <em>{major}.{minor}.{patch}</em>
+<li class="next">3 chiffres: <code>{major}.{minor}.{patch}</code>
 </li>
-                    <li class="next">suffix pour le dev: {major}.{minor}.{patch}.dev</li>
+                    <li class="next">suffix pour le dev: <code>{major}.{minor}.{patch}.dev</code>
+</li>
                 </ul>
 </li>
             <li class="next">
@@ -124,7 +127,8 @@
     <span class="n">version</span><span class="o">=</span><span class="n">__version__</span>
     <span class="n">description</span><span class="o">=</span><span class="n">__description__</span>
 <span class="p">)</span></code></pre>
-    </div></section><section class="slide" id="reutiliser-les-requirements-de-pip"><div>
+        <footer>la PEP 396 porte uniquement sur __version__</footer>
+</div></section><section class="slide" id="reutiliser-les-requirements-de-pip"><div>
 <h2>Réutiliser les requirements de pip</h2>
         <pre><code class="python highlight condensed"><span class="n">RE_REQUIREMENT</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r'^\s*-r\s*(?P&lt;filename&gt;.*)$'</span><span class="p">)</span>
 
@@ -167,7 +171,8 @@
     <span class="n">rst</span><span class="p">(</span><span class="s">'CHANGELOG.rst'</span><span class="p">),</span>
     <span class="s">''</span>
 <span class="p">))</span></code></pre>
-    </div></section><section class="shout slide" id="entry-points"><div>
+        <footer>verifier que code-block est toujours d'actualité avec la nouvelle version de PyPI et sur Crate.io</footer>
+</div></section><section class="shout slide" id="entry-points"><div>
 <h2>Entry Points</h2>
     </div></section><section class="slide" id="console-scripts"><div>
 <h2>Console scripts</h2>
@@ -177,6 +182,7 @@
         <span class="s">'myexec = project.commands:main'</span><span class="p">,</span>
     <span class="p">]</span>
 <span class="p">}</span></code></pre>
+        <pre><code class="highlight bash next"><span class="nv">$ </span>myexec</code></pre>
     </div></section><section class="slide" id="creer-ses-propres-commandes"><div>
 <h2>Créer ses propres commandes</h2>
         <pre><code class="python highlight condensed"><span class="n">entry_points</span> <span class="o">=</span> <span class="p">{</span>
