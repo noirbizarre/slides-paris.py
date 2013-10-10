@@ -6,6 +6,7 @@ import sys
 
 from docutils.core import publish_string
 from lxml import etree as ET, html
+
 from rst2html5 import HTML5Writer
 
 
@@ -54,8 +55,6 @@ ET.SubElement(head, 'meta', attrib={
     'content': 'ie=edge',
 })
 add_css(head, 'css/paris.py.css')
-# add_css(head, 'css/solarized-dark.css')
-# add_css(head, 'css/theme.css')
 
 body = doc.find('body')
 body.set('class', 'list')
@@ -72,6 +71,17 @@ for section in body.iter('section'):
     children = list(section)
     ET.SubElement(section, 'div').extend(children)
 
+    # Transform notes into a single footer
+    notes = ''
+    for note in section.cssselect('.note'):
+        notes += note.text_content().strip()
+        note.getparent().remove(note)
+    if notes:
+        footer = ET.SubElement(section.find('div'), 'footer')
+        footer.text = notes
+
+
+
 # Transform incremental lists
 for ul_or_ol in body.cssselect('.incremental'):
     for li in ul_or_ol.iterchildren():
@@ -81,8 +91,12 @@ for ul_or_ol in body.cssselect('.incremental'):
 
     ul_or_ol.attrib.pop('class')
 
+
+
+# Toggle syntax highlighting
 for code in body.cssselect('pre code'):
     add_class(code, 'highlight')
+
 
 # Create header
 header = ET.Element('header', attrib={'class': 'caption'})

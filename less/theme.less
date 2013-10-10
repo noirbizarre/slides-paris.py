@@ -1,17 +1,75 @@
 @import (less) "ribbon.css";
 @import (less) "solarized-dark.css";
 
+@title-color: #41ca85;
+
 .gray-background() {
-    background-color: rgba(100, 100, 100, .5);
+    background-color: rgba(100, 100, 100, .7);
     border-radius: 5px;
+}
+
+.caption {
+    p {
+        color: @title-color;
+    }
+}
+
+section.slide {
+    background: url(../images/bg-darkgrey.png);
+
+    color: #c3c8d5;
+
+    pre {
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        color: @title-color;
+        text-shadow: 0 1px 1px #8d8e90;
+    }
+
+    a {
+        color: #99F0B5;
+        border: none;
+    }
+
+    code {
+        background-color: transparent;
+        padding: 0;
+    }
+
+    footer {
+        color: black;
+    }
+
+    &.shout {
+        background-image: url(../images/python2.jpg) !important;
+        background-size: 100% 100%;
+
+        h2 {
+            // display: inline-block;
+            position: initial !important;
+            width: initial !important;
+            margin: 200px auto !important;
+            // position: absolute;
+            // margin: auto;
+            // top: 0;
+            // left: 0;
+            // left: initial;
+            // bottom: 0;
+            // right: initial;
+            text-shadow: 0px 1px 0px rgba(255,255,255,.3), 0px -1px 0px rgba(0,0,0,.7);
+            .gray-background();
+        }
+    }
 }
 
 .first {
     h2 {
         margin: 30px 0 0;
-        color: #FFF;
         text-align: center;
         font-size: 70px;
+        line-height: 120px;
 
         .gray-background();
     }
@@ -23,10 +81,14 @@
         font-style: italic;
         font-size: 20px;
         .gray-background();
+    }
 
-        a {
-            color: #FFF;
-        }
+    .logo-right {
+        position: absolute;
+        left: initial !important;
+        top: initial !important;
+        right: 20px !important;
+        bottom: 20px !important;
     }
 }
 
@@ -61,3 +123,33 @@ ul {
         }
     }
 }
+
+/* Progress */
+// @progress-color: rgba(50, 100, 100, 0.7);
+
+// .full {
+//     .progress {
+//         position:absolute;
+//         right:118px;
+//         bottom:20px;
+//         left:118px;
+//         border-radius:2px;
+//         border:2px solid @progress-color;
+
+//         div {
+//             width:0;
+//             height:10px;
+//             border-radius:2px;
+//             background: fadeout(@progress-color, 15%);
+//             -webkit-transition:width 0.2s linear;
+//             -moz-transition:width 0.2s linear;
+//             -ms-transition:width 0.2s linear;
+//             -o-transition:width 0.2s linear;
+//             transition:width 0.2s linear;
+//         }
+//     }
+
+//     .progress-off {
+//         z-index: 1;
+//     }
+// }

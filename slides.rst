@@ -1,7 +1,12 @@
+.. meta::
+    :description: Présentation pour le 3e meetup Paris.py
+    :author: Axel Haustant
+
 Python packaging
 ################
 
-Best practices et retour d'expérience en 15 minutes
+Tour d'horizon en 15 minutes
+
 
 
 .. class:: cover first
@@ -14,9 +19,19 @@ Par `Axel Haustant <http://noirbizarre.info>`_
 .. image:: images/python.jpg
     :alt: cover
 
+.. class:: logo-right
 
-Packager, Pourquoi ?
-====================
+.. image:: images/logo-meetup.png
+    :alt: logo meetup
+
+
+
+Packaging ?
+===========
+
+.. class:: next
+
+**Pourquoi ?**
 
 .. class:: incremental
 
@@ -24,22 +39,27 @@ Packager, Pourquoi ?
 * pour déployer
 * pour archiver
 
-Comment ?
-=========
+.. class:: next
+
+**Comment ?**
+
+.. class:: next
 
 Avec ``setuptools`` !
 
-.. class:: next
-
-C'est du Python donc tout est permis !
-
-.. class:: next
-
-Mais c'est pas une raison pour faire n'importe quoi !
 
 
-Un setup.py basic
-=================
+.. class:: shout
+
+L'essentiel
+===========
+
+.. note:: à revoir
+
+
+
+setup.py
+========
 
 .. code-block:: python
 
@@ -47,18 +67,46 @@ Un setup.py basic
 
     setup(
         name='my-project',
-        version='0.1',
+        version='0.1.0',
+        # ...
     )
 
 
-Paramètres importants
-=====================
+.. class:: next
+
+C'est du Python donc tout est permis !
+
+
+
+Identification
+==============
 
 .. class:: incremental
 
 * name (évidement)
 * version
 * description
+* long-description
+* classifiers
+
+
+
+Versionning
+===========
+
+.. class:: incremental
+
+* respect des normes (PEP 386, semver...)
+
+  * 3 chiffres: *{major}.{minor}.{patch}*
+  * suffix pour le dev: {major}.{minor}.{patch}.dev
+
+* Automatisez la release !
+
+  * script shell
+  * outil dédié (ex: Bump'R)
+
+
 
 Gestion des dépendances
 =======================
@@ -84,8 +132,101 @@ Gestion des dépendances
     $ pip install my-project[tests]
 
 
-**DRY**: Réutiliser les requirements de pip
-===========================================
+
+Gestion des resources
+=====================
+
+.. class:: incremental
+
+* ``include_package_data = True``
+* `MANIFEST.in <http://docs.python.org/2/distutils/sourcedist.html#the-manifest-in-template>`_
+* `pkg_resouces <http://pythonhosted.org/distribute/pkg_resources.html>`_
+
+.. note::
+
+    * Un slide pour chaque  avec des exemples ?
+
+
+
+MANIFEST.in
+===========
+
+Contrôlez la taille et le contenu de votre livrable
+
+.. class:: next
+
+* include
+* include-recursive
+* exclude
+* exclude-recursive
+* prune
+
+
+
+Développez
+==========
+
+Une seule commande pour être prêt:
+
+.. code-block:: bash
+
+    $ python setup.py develop
+
+
+
+Prévisualisez
+=============
+
+Contrôlez ce que vous allez publier
+
+.. code-block:: bash
+
+    $ python setup.py --long-description | rst2html
+    $ python setup.py sdist
+
+
+
+Publiez
+=======
+
+.. code-block:: bash
+
+    # Enregistrer le module sur PyPI
+    $ python setup.py register
+    # Publier sur PyPI
+    $ python setup.py sdist upload
+    # Créer un version avec un suffix
+    $ python setup.py -q egg_info -b ".1234" sdist
+
+
+
+.. class:: shout
+
+Recettes DRY
+============
+
+
+
+Réutiliser les metadonnées du module
+====================================
+
+Selon la `PEP 396`_, le module doit contenir certaines metadonnées
+
+.. class:: next
+
+.. code-block:: python
+
+    from project import __version__, __description__
+    setup(
+        name='project'
+        version=__version__
+        description=__description__
+    )
+
+
+
+Réutiliser les requirements de pip
+==================================
 
 .. class:: condensed
 
@@ -113,43 +254,16 @@ Gestion des dépendances
     )
 
 
-Versionning
-===========
 
-.. class:: incremental
-
-* respect des normes (PEP 386, semver...)
-
-  * 3 chiffres: {major}.{minor}.{patch}
-  * suffix en dehors des releases: {major}.{minor}.{patch}.dev
-
-* Automatisez la release !
-
-  * script shell
-  * Bump'R (ou autre)
-
-
-Description et changelog
-========================
-
-Soyez **DRY**, réutiliser vos fichiers:
-
-.. class:: incremental
-
-* README.rst
-* CHANGELOG.rst
-* CONTRIBUTING.rst
-* AUTHORS.rst
-
-Filtrage et concatenation du RST
-================================
+Réutiliser les fichiers rst
+===========================
 
 .. class:: condensed
 
 .. code-block:: python
 
     PYPI_RST_FILTERS = (
-        (r'\.\.\s? code-block::\s*(\w|\+)+',  '::'),
+        (r'\.\.\s? code-block::\s*(\w|\+)+',  '::'), #
         (r'.*travis-ci\.org/.*', ''),
         (r'.*pypip\.in/.*', ''),
         (r'.*crate\.io/.*', ''),
@@ -169,72 +283,62 @@ Filtrage et concatenation du RST
     ))
 
 
-Documentation
-=============
 
-Sphinx, Read the doc...
-
-Console scripts
-===============
-
-TODO
-
+.. class:: shout
 
 Entry Points
 ============
 
-TODO
+
+Console scripts
+===============
+
+Pas besoin de répertoire ``bin``
+
+.. class:: next
+
+.. code-block:: python
+
+    entry_points={
+        'console_scripts': [
+            'myexec = project.commands:main',
+        ]
+    }
 
 
-Classifiers
-===========
 
-Sur PyPI (Python version)
+Créer ses propres commandes
+===========================
 
-Inclure des données
-===================
+.. class:: condensed
 
-find_packages
-MANIFEST.in
-read from stream
+.. code-block:: python
 
-MANIFEST.in
-===========
-
-* include
-* include-recursive
-* prune
-
-Développez
-==========
-
-Une seule commande pour être prêt:
-
-.. code-block:: bash
-
-    $ python setup.py develop
+    entry_points = {
+        'distutils.commands': 'do_it = project.commands:DoSomething',
+    },
 
 
-Prévisualisez
-=============
+.. class:: next condensed
 
-.. code-block:: bash
+.. code-block:: python
 
-    $ python setup.py --long-description | rst2html
-    $ python setup.py sdist
+    from setuptools import Command
+
+    class DoSomething(Command):
+        description = "Do something"
+        user_options = []
+
+        def initialize_options(self):
+            pass
+
+        def finalize_options(self):
+            pass
+
+        def run(self):
+            do_something()
 
 
-Publiez
-=======
-
-.. code-block:: bash
-
-    # Enregistrer le module sur PyPI
-    $ python setup.py register
-    # Publier sur PyPI
-    $ python setup.py sdist upload
-    # Créer un version avec un suffix
-    $ python setup.py -q egg_info -b ".1234" sdist
 
 
 Un peu de lecture
@@ -242,7 +346,27 @@ Un peu de lecture
 
 * `Documentation officielle de setuptools <https://pythonhosted.org/setuptools/>`_
 * `The Hitchhiker's Guide to Packaging <http://guide.python-distribute.org/>`_
-* `PEP 386 <http://www.python.org/dev/peps/pep-0386/>`_ (numéro de version)
-* `PEP 396 <http://www.python.org/dev/peps/pep-0396/>`_ (version d'un module)
-* `PEP 345 <http://www.python.org/dev/peps/pep-0345/>`_ (métadonnées)
-* `PEP 426 <http://www.python.org/dev/peps/pep-0426/>`_ (métadonnées 2.0)
+* `PEP 386`_ (numéro de version)
+* `PEP 396`_ (version d'un module)
+* `PEP 345`_ (métadonnées)
+* `PEP 426`_ (métadonnées 2.0)
+
+
+.. class:: shout
+
+Questions
+=========
+
+
+A suivre...
+===========
+
+* présentation: http://noirbizarre.github.io/slides-paris.py/
+* twitter: `@noirbizarre <https://twitter.com/noirbizarre>`_
+* google+: `noirbizarre <https://plus.google.com/118323681296003594129/>`_
+
+
+.. _`PEP 386`: http://www.python.org/dev/peps/pep-0386/
+.. _`PEP 396`: http://www.python.org/dev/peps/pep-0396/
+.. _`PEP 345`: http://www.python.org/dev/peps/pep-0345/
+.. _`PEP 426`: http://www.python.org/dev/peps/pep-0426/
