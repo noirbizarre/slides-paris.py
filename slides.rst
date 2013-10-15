@@ -24,20 +24,15 @@ Par `Axel Haustant <http://noirbizarre.info>`_
 .. image:: images/logo-meetup.png
     :alt: logo meetup
 
-.. note::
-
-    * remettre la phrase d'accroche ?
-    * taille du logo ?
-    * faire apparaitre Paris.py dans le logo
 
 
+.. class:: shout
 
 Packaging ?
 ===========
 
-.. class:: next
-
-**Pourquoi ?**
+Pourquoi ?
+==========
 
 .. class:: incremental
 
@@ -46,22 +41,32 @@ Packaging ?
 * pour archiver
 
 .. class:: next
+..
 
-**Comment ?**
+    Être réutilisable
+
+
+Comment ?
+=========
+
+.. class:: incremental
+
+* standard
+* multiplateformes
+* documenté
+* à moindre coüt
+
 
 .. class:: next
+..
 
-Avec ``setuptools`` !
-
+    La solution: ``setuptools`` !
 
 
 .. class:: shout
 
-L'essentiel
-===========
-
-.. note:: titre à revoir
-
+Les bases
+=========
 
 
 setup.py
@@ -93,6 +98,7 @@ Identification
 * version
 * description
 * long_description
+* url
 * classifiers
 
 
@@ -104,13 +110,13 @@ Versionning
 
 * respect des normes (PEP 386, semver...)
 
-  * 3 chiffres: ``{major}.{minor}.{patch}``
-  * suffix pour le dev: ``{major}.{minor}.{patch}.dev``
+  * release: ``{major}.{minor}.{patch}``
+  * dev/master/...: ``{major}.{minor}.{patch}.dev``
 
 * Automatisez la release !
 
   * script shell
-  * outil dédié (ex: Bump'R)
+  * outil dédié (ex: Zest.releaser, Bump'R, ...)
 
 
 
@@ -144,14 +150,9 @@ Gestion des resources
 
 .. class:: incremental
 
-* ``include_package_data = True``
+* `include_package_data/package_data <http://pythonhosted.org/setuptools/setuptools.html#including-data-files>`_
 * `MANIFEST.in <http://docs.python.org/2/distutils/sourcedist.html#the-manifest-in-template>`_
 * `pkg_resouces <http://pythonhosted.org/distribute/pkg_resources.html>`_
-
-.. note::
-
-    * Un slide pour chaque  avec des exemples ?
-
 
 
 MANIFEST.in
@@ -168,6 +169,23 @@ Contrôlez la taille et le contenu de votre livrable
 * prune
 
 
+README
+======
+
+Doit permettre de démarrer rapidement.
+
+.. class:: incremental
+
+- Présentation fonctionnelle rapide
+- Procédure d'installation
+- Documentation (ou lien)
+- Complété par un changelog
+
+
+.. class:: shout
+
+Commandes
+=========
 
 Développez
 ==========
@@ -177,7 +195,12 @@ Une seule commande pour être prêt:
 .. code-block:: bash
 
     $ python setup.py develop
+    # ou
+    $ pip install -e .
 
+.. class:: next
+
+A refaire dès que les dépendances et les entrypoints changent.
 
 
 Prévisualisez
@@ -208,7 +231,7 @@ Publiez
 
 .. class:: shout
 
-Recettes DRY
+Réutilisez !
 ============
 
 
@@ -216,7 +239,7 @@ Recettes DRY
 Réutiliser les metadonnées du module
 ====================================
 
-Selon la `PEP 396`_, le module doit contenir certaines metadonnées
+Selon la `PEP 396`_, le module doit contenir un attribut ``__version__``
 
 .. class:: next
 
@@ -356,6 +379,33 @@ Créer ses propres commandes
             do_something()
 
 
+Chargement d'extensions
+=======================
+
+Un project qui exporte
+
+.. class:: condensed next
+
+.. code-block:: python
+
+    entry_points = {
+        'myproject.plugins': [
+            'someplugin = other_project.plugins:SomePlugin',
+        ],
+    },
+
+.. class:: next
+
+Un autre qui importe
+
+.. class:: condensed next
+
+.. code-block:: python
+
+    import pkg_resources
+
+    for entrypoint in pkg_resources.iter_entry_points('myproject.plugins'):
+        plugin = entrypoint.load()
 
 
 Un peu de lecture
@@ -378,9 +428,43 @@ Questions
 A suivre...
 ===========
 
-* présentation: http://noirbizarre.github.io/slides-paris.py/
+* présentation: http://noirbizarre.github.io/slides/paris.py/
+* blog: http://noirbizarre.info
 * twitter: `@noirbizarre <https://twitter.com/noirbizarre>`_
 * google+: `noirbizarre <https://plus.google.com/118323681296003594129/>`_
+
+
+.. class:: shout
+
+Extras
+======
+
+Layout
+======
+
+.. class:: condensed
+
+.. code-block::
+
+    ├── doc
+    ├── myproject
+    │   ├─ __init__.py
+    │   └─ ..
+    ├── requirements
+    │   ├─ develop.pip
+    │   ├─ install.pip
+    │   ├─ tools.pip
+    │   └─ test.pip
+    ├─ .gitignore
+    ├─ Makefile/Fabfile
+    ├─ bumpr.rc
+    ├─ CHANGELOG.rst
+    ├─ pep8.rc
+    ├─ pylint.rc
+    ├─ MANIFEST.in
+    ├─ README.rst
+    └─ setup.py
+
 
 
 .. _`PEP 386`: http://www.python.org/dev/peps/pep-0386/

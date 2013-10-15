@@ -10,7 +10,7 @@
 
 .caption {
     p {
-        color: @title-color;
+        color: fadeout(@title-color, 60%);
     }
 }
 
@@ -40,6 +40,10 @@ section.slide {
 
     footer {
         color: black;
+    }
+
+    blockquote {
+        margin-left: 80px;
     }
 
     &.shout {
