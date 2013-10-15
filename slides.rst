@@ -94,12 +94,13 @@ Identification
 
 .. class:: incremental
 
-* name (évidement)
+* name
 * version
 * description
 * long_description
 * url
 * classifiers
+* ...
 
 
 
@@ -108,7 +109,7 @@ Versionning
 
 .. class:: incremental
 
-* respect des normes (PEP 386, semver...)
+* respect des normes (`PEP 386`_, `semver`_...)
 
   * release: ``{major}.{minor}.{patch}``
   * dev/master/...: ``{major}.{minor}.{patch}.dev``
@@ -155,18 +156,18 @@ Gestion des resources
 * `pkg_resouces <http://pythonhosted.org/distribute/pkg_resources.html>`_
 
 
-MANIFEST.in
-===========
+.. MANIFEST.in
+.. ===========
 
-Contrôlez la taille et le contenu de votre livrable
+.. Contrôlez la taille et le contenu de votre livrable
 
-.. class:: next
+.. .. class:: next
 
-* include
-* include-recursive
-* exclude
-* exclude-recursive
-* prune
+.. * include
+.. * include-recursive
+.. * exclude
+.. * exclude-recursive
+.. * prune
 
 
 README
@@ -190,7 +191,7 @@ Commandes
 Développez
 ==========
 
-Une seule commande pour être prêt:
+Pour être prêt à développer:
 
 .. code-block:: bash
 
@@ -417,6 +418,7 @@ Un peu de lecture
 * `PEP 396`_ (version d'un module)
 * `PEP 345`_ (métadonnées)
 * `PEP 426`_ (métadonnées 2.0)
+* `semver`_
 
 
 .. class:: shout
@@ -475,3 +477,4 @@ Layout
 .. _`PEP 396`: http://www.python.org/dev/peps/pep-0396/
 .. _`PEP 345`: http://www.python.org/dev/peps/pep-0345/
 .. _`PEP 426`: http://www.python.org/dev/peps/pep-0426/
+.. _`semver`: http://www.semver.org
