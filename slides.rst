@@ -428,7 +428,11 @@ Questions
 A suivre...
 ===========
 
-* présentation: http://noirbizarre.github.io/slides/paris.py/
+* présentation:
+
+  * http://noirbizarre.github.io/slides/paris.py/
+  * http://slides.noirbizarre.info/paris.py/
+
 * blog: http://noirbizarre.info
 * twitter: `@noirbizarre <https://twitter.com/noirbizarre>`_
 * google+: `noirbizarre <https://plus.google.com/118323681296003594129/>`_
