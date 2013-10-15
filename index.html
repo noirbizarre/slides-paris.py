@@ -34,7 +34,7 @@
 <li class="next">standard</li>
             <li class="next">multiplateformes</li>
             <li class="next">documenté</li>
-            <li class="next">à moindre coüt</li>
+            <li class="next">à moindre coût</li>
         </ul>
 <blockquote class="next">
             <p>La solution: <code>setuptools</code> !</p>
@@ -187,7 +187,15 @@
     <span class="s">''</span>
 <span class="p">))</span></code></pre>
         <footer>verifier que code-block est toujours d'actualité avec la nouvelle version de PyPI et sur Crate.io</footer>
-</div></section><section class="shout slide" id="entry-points"><div>
+</div></section><section class="slide" id="reutilisez-la-version"><div>
+<h2>Réutilisez la version</h2>
+        <pre><code class="python highlight"><span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">get_distribution</span>
+    <span class="n">VERSION</span> <span class="o">=</span> <span class="n">get_distribution</span><span class="p">(</span><span class="s">'project'</span><span class="p">)</span><span class="o">.</span><span class="n">version</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">VERSION</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s">'project'</span><span class="p">)</span><span class="o">.</span><span class="n">__version__</span></code></pre>
+        <p class="next">Prend en compte la version "<strong>installée</strong>" (ex: <em>0.1.0.dev1234</em>)</p>
+    </div></section><section class="shout slide" id="entry-points"><div>
 <h2>Entry Points</h2>
     </div></section><section class="slide" id="console-scripts"><div>
 <h2>Console scripts</h2>
