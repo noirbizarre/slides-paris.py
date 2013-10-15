@@ -54,7 +54,7 @@ Comment ?
 * standard
 * multiplateformes
 * documenté
-* à moindre coüt
+* à moindre coût
 
 
 .. class:: next
@@ -317,6 +317,21 @@ Réutiliser les fichiers rst
 .. note:: verifier que code-block est toujours d'actualité
     avec la nouvelle version de PyPI et sur Crate.io
 
+
+Réutilisez la version
+=====================
+
+.. code-block:: python
+
+    try:
+        from pkg_resources import get_distribution
+        VERSION = get_distribution('project').version
+    except:
+        VERSION = __import__('project').__version__
+
+.. class:: next
+
+Prend en compte la version "**installée**" (ex: *0.1.0.dev1234*)
 
 
 .. class:: shout
