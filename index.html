@@ -15,23 +15,33 @@
     </header><section class="slide cover first" id="packaging-python"><div>
 <h2>Packaging Python</h2>
         <p>Par <a href="http://noirbizarre.info">Axel Haustant</a></p>
-        <img src="images/python.jpg" alt="cover"><img src="images/logo-meetup.png" alt="logo meetup" class="logo-right"><footer>remettre la phrase d'accroche ?
-                taille du logo ?
-                faire apparaitre Paris.py dans le logo</footer>
-</div></section><section class="slide" id="packaging"><div>
+        <img src="images/python.jpg" alt="cover"><img src="images/logo-meetup.png" alt="logo meetup" class="logo-right">
+</div></section><section class="shout slide" id="packaging"><div>
 <h2>Packaging ?</h2>
-        <p class="next"><strong>Pourquoi ?</strong></p>
+    </div></section><section class="slide" id="pourquoi"><div>
+<h2>Pourquoi ?</h2>
         <ul>
 <li class="next">pour distribuer</li>
             <li class="next">pour déployer</li>
             <li class="next">pour archiver</li>
         </ul>
-<p class="next"><strong>Comment ?</strong></p>
-        <p class="next">Avec <code>setuptools</code> !</p>
-    </div></section><section class="shout slide" id="l-essentiel"><div>
-<h2>L'essentiel</h2>
-        <footer>titre à revoir</footer>
-</div></section><section class="slide" id="setup-py"><div>
+<blockquote class="next">
+            <p>Être réutilisable</p>
+        </blockquote>
+    </div></section><section class="slide" id="comment"><div>
+<h2>Comment ?</h2>
+        <ul>
+<li class="next">standard</li>
+            <li class="next">multiplateformes</li>
+            <li class="next">documenté</li>
+            <li class="next">à moindre coüt</li>
+        </ul>
+<blockquote class="next">
+            <p>La solution: <code>setuptools</code> !</p>
+        </blockquote>
+    </div></section><section class="shout slide" id="les-bases"><div>
+<h2>Les bases</h2>
+    </div></section><section class="slide" id="setup-py"><div>
 <h2>setup.py</h2>
         <pre><code class="python highlight"><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
 
@@ -48,6 +58,7 @@
             <li class="next">version</li>
             <li class="next">description</li>
             <li class="next">long_description</li>
+            <li class="next">url</li>
             <li class="next">classifiers</li>
         </ul>
 </div></section><section class="slide" id="versionning"><div>
@@ -56,9 +67,9 @@
 <li class="next">
                 <p>respect des normes (PEP 386, semver...)</p>
                 <ul>
-<li class="next">3 chiffres: <code>{major}.{minor}.{patch}</code>
+<li class="next">release: <code>{major}.{minor}.{patch}</code>
 </li>
-                    <li class="next">suffix pour le dev: <code>{major}.{minor}.{patch}.dev</code>
+                    <li class="next">dev/master/...: <code>{major}.{minor}.{patch}.dev</code>
 </li>
                 </ul>
 </li>
@@ -66,7 +77,7 @@
                 <p>Automatisez la release !</p>
                 <ul>
 <li class="next">script shell</li>
-                    <li class="next">outil dédié (ex: Bump'R)</li>
+                    <li class="next">outil dédié (ex: Zest.releaser, Bump'R, ...)</li>
                 </ul>
 </li>
         </ul>
@@ -84,11 +95,10 @@
     </div></section><section class="slide" id="gestion-des-resources"><div>
 <h2>Gestion des resources</h2>
         <ul>
-<li class="next"><code>include_package_data = True</code></li>
+<li class="next"><a href="http://pythonhosted.org/setuptools/setuptools.html#including-data-files">include_package_data/package_data</a></li>
             <li class="next"><a href="http://docs.python.org/2/distutils/sourcedist.html#the-manifest-in-template">MANIFEST.in</a></li>
             <li class="next"><a href="http://pythonhosted.org/distribute/pkg_resources.html">pkg_resouces</a></li>
         </ul>
-<footer>Un slide pour chaque avec des exemples ?</footer>
 </div></section><section class="slide" id="id1"><div>
 <h2>MANIFEST.in</h2>
         <p>Contrôlez la taille et le contenu de votre livrable</p>
@@ -99,10 +109,24 @@
             <li>exclude-recursive</li>
             <li>prune</li>
         </ul>
-</div></section><section class="slide" id="developpez"><div>
+</div></section><section class="slide" id="readme"><div>
+<h2>README</h2>
+        <p>Doit permettre de démarrer rapidement.</p>
+        <ul>
+<li class="next">Présentation fonctionnelle rapide</li>
+            <li class="next">Procédure d'installation</li>
+            <li class="next">Documentation (ou lien)</li>
+            <li class="next">Complété par un changelog</li>
+        </ul>
+</div></section><section class="shout slide" id="commandes"><div>
+<h2>Commandes</h2>
+    </div></section><section class="slide" id="developpez"><div>
 <h2>Développez</h2>
         <p>Une seule commande pour être prêt:</p>
-        <pre><code class="highlight bash"><span class="nv">$ </span>python setup.py develop</code></pre>
+        <pre><code class="highlight bash"><span class="nv">$ </span>python setup.py develop
+<span class="c"># ou
+</span><span class="nv">$ </span>pip install -e .</code></pre>
+        <p class="next">A refaire dès que les dépendances et les entrypoints changent.</p>
     </div></section><section class="slide" id="previsualisez"><div>
 <h2>Prévisualisez</h2>
         <p>Contrôlez ce que vous allez publier</p>
@@ -116,11 +140,11 @@
 </span><span class="nv">$ </span>python setup.py sdist upload
 <span class="c"># Créer un version avec un suffix
 </span><span class="nv">$ </span>python setup.py -q egg_info -b <span class="s2">".1234"</span> sdist</code></pre>
-    </div></section><section class="shout slide" id="recettes-dry"><div>
-<h2>Recettes DRY</h2>
+    </div></section><section class="shout slide" id="reutilisez"><div>
+<h2>Réutilisez !</h2>
     </div></section><section class="slide" id="reutiliser-les-metadonnees-du-module"><div>
 <h2>Réutiliser les metadonnées du module</h2>
-        <p>Selon la <a href="http://www.python.org/dev/peps/pep-0396/">PEP 396</a>, le module doit contenir certaines metadonnées</p>
+        <p>Selon la <a href="http://www.python.org/dev/peps/pep-0396/">PEP 396</a>, le module doit contenir un attribut <code>__version__</code></p>
         <pre><code class="python highlight next"><span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">__version__</span><span class="p">,</span> <span class="n">__description__</span>
 <span class="n">setup</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s">'project'</span>
@@ -202,6 +226,19 @@
 
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">do_something</span><span class="p">()</span></code></pre>
+    </div></section><section class="slide" id="chargement-d-extensions"><div>
+<h2>Chargement d'extensions</h2>
+        <p>Un project qui exporte</p>
+        <pre><code class="python highlight condensed next"><span class="n">entry_points</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'myproject.plugins'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">'someplugin = other_project.plugins:SomePlugin'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">},</span></code></pre>
+        <p class="next">Un autre qui importe</p>
+        <pre><code class="python highlight condensed next"><span class="kn">import</span> <span class="nn">pkg_resources</span>
+
+<span class="k">for</span> <span class="n">entrypoint</span> <span class="ow">in</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="s">'myproject.plugins'</span><span class="p">):</span>
+    <span class="n">plugin</span> <span class="o">=</span> <span class="n">entrypoint</span><span class="o">.</span><span class="n">load</span><span class="p">()</span></code></pre>
     </div></section><section class="slide" id="un-peu-de-lecture"><div>
 <h2>Un peu de lecture</h2>
         <ul>
@@ -221,14 +258,38 @@
     </div></section><section class="slide" id="a-suivre"><div>
 <h2>A suivre...</h2>
         <ul>
-<li>présentation: <a href="http://noirbizarre.github.io/slides-paris.py/">http://noirbizarre.github.io/slides-paris.py/</a>
+<li>présentation: <a href="http://noirbizarre.github.io/slides/paris.py/">http://noirbizarre.github.io/slides/paris.py/</a>
+</li>
+            <li>blog: <a href="http://noirbizarre.info">http://noirbizarre.info</a>
 </li>
             <li>twitter: <a href="https://twitter.com/noirbizarre">@noirbizarre</a>
 </li>
             <li>google+: <a href="https://plus.google.com/118323681296003594129/">noirbizarre</a>
 </li>
         </ul>
-</div></section><div class="progress"><div></div></div>
+</div></section><section class="shout slide" id="extras"><div>
+<h2>Extras</h2>
+    </div></section><section class="slide" id="layout"><div>
+<h2>Layout</h2>
+        <pre><code class="highlight condensed">├── doc
+├── myproject
+│   ├─ __init__.py
+│   └─ ..
+├── requirements
+│   ├─ develop.pip
+│   ├─ install.pip
+│   ├─ tools.pip
+│   └─ test.pip
+├─ .gitignore
+├─ Makefile/Fabfile
+├─ bumpr.rc
+├─ CHANGELOG.rst
+├─ pep8.rc
+├─ pylint.rc
+├─ MANIFEST.in
+├─ README.rst
+└─ setup.py</code></pre>
+    </div></section><div class="progress"><div></div></div>
 <script src="js/paris.py.js"></script>
 </body>
 </html>
